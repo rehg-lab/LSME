@@ -41,6 +41,14 @@ https://www.dropbox.com/s/2o3fwxlw1k37ewy/support.tar.xz?dl=0
 https://www.dropbox.com/s/zm8y6wz0kqzb69f/query.tar.xz?dl=0
 ```
 
+## Installation
+```
+conda env create -f environment.yml
+conda activate lsme
+
+pip install -e .
+```
+
 ## Low-shot Evaluation on LSME setting
 Download pretrained DINOv2 ViT B/14 - ABC weights from [here](https://www.dropbox.com/s/fhw2j37wxszicpc/DINOv2B14_ABC.pt?dl=0)
 
