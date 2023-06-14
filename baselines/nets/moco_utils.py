@@ -70,7 +70,6 @@ class MemoryMoCo(nn.Module):
         l_pos = torch.bmm(q[:B].reshape(B, 1, -1), k[:B].reshape(B, -1, 1))
 
         l_pos = l_pos.view(B, 1)
-        # l_pos = torch.cat([l_pos, torch.ones(batchSize-B,1)], dim=0)
 
 
         l_pos_2 = self.nearest_neighbor(q).view(batchSize, 1)
@@ -92,21 +91,9 @@ class MemoryMoCo(nn.Module):
             l_neg_2 = torch.mm(queue.detach(), q.transpose(1,0))
             l_neg_2 = l_neg_2.transpose(0, 1)
 
-            # l_neg_1 = torch.cat(torch.split(l_neg_1, B), dim=1)
-
-            # l_neg_1 = torch.mm(k.detach(), q.transpose(1, 0)) ### B_size x B_size
-            # l_neg_1 = l_neg_1.gather(1, self.neg_idx)
-
         if k_neg is not None:
             l_neg_1 = torch.bmm(q.view(batchSize, 1, -1), k_neg.view(batchSize, -1, 1))
             l_neg_1 = l_neg_1.view(batchSize, 1)
-
-        # logging = {
-        #     "pos": l_pos.detach().mean().item(),
-        #     "pos_NN": l_pos_2.detach().mean().item(),
-        #     "neg_diff_scene": l_neg_1.detach().mean().item(),
-        #     "neg_same_scene": l_neg_2.detach().mean().item()
-        # }
 
         logging = {
             "pos": l_pos.detach().mean().item(),
@@ -121,22 +108,14 @@ class MemoryMoCo(nn.Module):
             out2 = out2.squeeze().contiguous()
         else: 
             out2 = 0
-            # out2 = torch.cat((l_pos_2, l_neg_2), dim=1)
-            # out2 = torch.div(out2, self.T)
-            # out2 = out2.squeeze().contiguous()
 
         out1 = torch.div(out1, self.T)
         out1 = out1.squeeze().contiguous()
 
 
-        # out2 = 0
-
-
         if self.use_queue:
             # # update memory
             with torch.no_grad():
-                # k = concat_all_gather(k.contiguous())
-
 
                 ################################
                 key = torch.cat([k, k_neg], dim=0)
@@ -160,13 +139,8 @@ class NetworkMoCo(nn.Module):
     def __init__(self, proj_dim):
         super(NetworkMoCo, self).__init__()
 
-        # self.backbone = resnet18()
-        # self.backbone = vit_small(patch_size=8)
-        # self.backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16') #### 45.9
-        
-        # self.backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vits8')    ##### 46.5
+        # self.backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vits8')
         self.backbone = torch.hub.load('facebookresearch/dinov2', 'dinov2_vitb14')
-        # self.backbone = torch.hub.load('facebookresearch/vicregl:main', 'convnext_small_alpha0p9')
 
     def forward(self, x):
 

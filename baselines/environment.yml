@@ -1,4 +1,4 @@
-name: lssb25D
+name: lsme
 channels:
   - pytorch
   - pytorch-lts

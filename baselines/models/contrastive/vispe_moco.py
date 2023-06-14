@@ -36,9 +36,9 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 
 BATCH_LOG_STEP = 10
 MODEL_LOG_STEP = 50
-NUM_SHOTS = 5
+NUM_SHOTS = 1
 NUM_QUERIES = 15
-NUM_WAYS = 10
+NUM_WAYS = 5
 NUM_EPISODE = 500
 
 class VISPE_MoCo(ContrastiveBase):
@@ -50,13 +50,8 @@ class VISPE_MoCo(ContrastiveBase):
         self.loss = NCESoftmaxLoss()
 
     def build_net(self, model_args, data_args):
-        # proj_dim = 128
         # proj_dim = 384
         proj_dim = 768
-
-
-        # self.backbone = ViTExtractor("dino_vits8", 4)
-        # self.backbone = torch.hub.load('facebookresearch/dino:main', 'dino_vitb16')
 
 
         self.encoder = NetworkMoCo(proj_dim)
@@ -74,8 +69,6 @@ class VISPE_MoCo(ContrastiveBase):
 
         if dist.is_initialized():
             local_rank = int(os.environ["LOCAL_RANK"])
-
-            # self.backbone = self.backbone.to(local_rank)
 
 
             self.encoder = self.encoder.to(local_rank)
@@ -122,21 +115,15 @@ class VISPE_MoCo(ContrastiveBase):
 
             self.optimizer.zero_grad()
 
-            # with torch.no_grad():
-            #     output_q = self.backbone(image1)
-
 
             # Shuffle and reverse so that batch norm shortcut doesn't happen
-            # output_q = self.encoder(output_q)
             output_q = self.encoder(image1)
 
 
             with torch.no_grad():
                 # shuffle for making use of BN
                 image2, idx_unshuffle = batch_shuffle_ddp(image2)
-                # output_k = self.backbone(image2)
 
-                # output_k = self.encoder_ema(output_k)
                 output_k = self.encoder_ema(image2)
 
 
@@ -148,8 +135,6 @@ class VISPE_MoCo(ContrastiveBase):
 
                 # shuffle for making use of BN
                 image_neg, idx_unshuffle_neg = batch_shuffle_ddp(image_neg)
-                # output_k_neg = self.backbone(image_neg)
-                # output_k_neg = self.encoder_ema(output_k_neg)
 
                 output_k_neg = self.encoder_ema(image_neg)
 
@@ -164,11 +149,9 @@ class VISPE_MoCo(ContrastiveBase):
             global_feat_k_neg = output_k_neg["global_projected_feat"]
 
 
-            out1, out2, logging = self.global_contrast(global_feat_q, global_feat_k, k_neg=global_feat_k_neg)
+            out1, _, _ = self.global_contrast(global_feat_q, global_feat_k, k_neg=global_feat_k_neg)
 
             global_loss1 = self.loss(out1)
-            # global_loss2 = self.loss(out2)
-            # global_loss = global_loss1 + global_loss2
             global_loss = global_loss1
 
 
@@ -240,10 +223,6 @@ class VISPE_MoCo(ContrastiveBase):
             image2 = batch["image2"].cuda()
             image_neg = batch["image_neg"].cuda()
             B, C, H, W = image1.shape
-
-            # output_q = self.backbone(image1)
-            # output_k = self.backbone(image2)
-            # output_k_neg = self.backbone(image_neg)
 
             output_q = self.encoder.module(image1)
             output_k = self.encoder.module(image2)
@@ -395,11 +374,6 @@ class VISPE_MoCo(ContrastiveBase):
 
                 p_str = f"{idx:04d}/{len(loader):04d} - curr epi:{accuracy:.4f}  avg:{m:.4f} - curr epi sa:{shot_assignment_acc:.4f}  avg:{sa:.4f}"
 
-
-                # p_str = f"{idx:04d}/{len(loader):04d} - curr epi:{shot_assignment_acc:.4f}  avg:{sa:.4f}"
-                # print(p_str, end="\r")
-
-                # p_str = f"{idx:04d}/{len(loader):04d} - curr epi:{accuracy:.4f}  avg:{m:.4f}"
                 print(p_str, end="\r")
 
 
@@ -418,10 +392,8 @@ class VISPE_MoCo(ContrastiveBase):
         with torch.no_grad():
             for idx, batch in enumerate(base_loader):
                 images, cats = batch
-                # encoder_output = self.backbone(images.cuda())
                 encoder_output = self.encoder(images.cuda())
                 embeds = F.normalize(encoder_output['global_projected_feat'], dim=1)
-                # embeds = F.normalize(encoder_output, dim=1)
 
                 base_class_features.append(embeds)
             base_class_features = torch.cat(base_class_features, dim=0)
@@ -431,7 +403,6 @@ class VISPE_MoCo(ContrastiveBase):
     @torch.no_grad()
     def LS_eval_me_single(self, base_loader, loader, writer=None, epoch=-1):
         self.encoder.eval()
-        # self.mask_encoder.eval()
         n_shot = NUM_SHOTS
         n_way = NUM_WAYS
         n_episode = NUM_EPISODE
@@ -464,9 +435,6 @@ class VISPE_MoCo(ContrastiveBase):
                     else:
                         embeds = torch.cat([embeds, embed], dim=0)
                 embeds = F.normalize(embeds, dim=1)
-                # embeds = encoder_output = self.backbone(images.cuda())
-                # encoder_output = self.encoder.module(encoder_output)
-                # embeds = encoder_output['global_projected_feat']
 
                 shot_labels = np.array(labels[:n_shot * n_way])
                 query_labels = np.array(labels[n_shot * n_way:])
@@ -497,9 +465,6 @@ class VISPE_MoCo(ContrastiveBase):
                 accuracy = compute_ME_acc(pred_labels, other_labels_query, labels)
                 per_episode_accuracy.append(accuracy)
                 m = np.mean(per_episode_accuracy)
-
-                # p_str = f"{idx:04d}/{len(loader):04d} - curr epi:{shot_assignment_acc:.4f}  avg:{sa:.4f}"
-                # print(p_str, end="\r")
 
                 p_str = f"{idx:04d}/{len(loader):04d} - curr epi:{accuracy:.4f}  avg:{m:.4f} - curr epi sa:{shot_assignment_acc:.4f}  avg:{sa:.4f}"
                 print(p_str, end="\r")

@@ -14,7 +14,6 @@ from datetime import datetime, timedelta
 
 import models
 from data.prepare_dataset import (
-        get_datasets_local, get_datasets_local_sv,
         get_datasets_global, get_dataloaders)
 
 torch.backends.cudnn.benchmark=True
@@ -83,14 +82,8 @@ def main(cfg, ckpt, cfg_p):
     else:
         writer = None
     
-    if model_args.model_type in ["vispe", "vispe++", "vispe_moco", "vispe_byol", "trans_con_moco", 'trans_vispe']:
+    if model_args.model_type in ["vispe_moco"]:
         datasets = get_datasets_global(data_args)
-        loaders = get_dataloaders(datasets, data_args)
-    elif  model_args.model_type in ["dope", "global_from_local", "dino_vit_distill"]:
-        datasets = get_datasets_local(data_args)
-        loaders = get_dataloaders(datasets, data_args)
-    elif  model_args.model_type in ["dope_sv"]:
-        datasets = get_datasets_local_sv(data_args)
         loaders = get_dataloaders(datasets, data_args)
     else:
         datasets = model.get_datasets(data_args) 

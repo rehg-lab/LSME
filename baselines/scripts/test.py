@@ -15,16 +15,16 @@ from data.lowshot.sampler import CategoriesSampler, CategoriesSamplerME
 
 import models
 
-NUM_SHOTS = 5
+NUM_SHOTS = 1
 NUM_QUERIES = 15
-NUM_WAYS = 10
+NUM_WAYS = 5
 NUM_EPI = 500
 PRED_SEG = True
 CAT = True ####### Whether this is category test or instance test
 EASY = False ######### All visible objects
 SHOT_GIVEN = False
 CO3D = False
-SINGLE_OBJ = False #### S-IN set this false
+SINGLE_OBJ = False ####
 
 if CO3D:
     from data.lowshot.lvis import LowShotDataset

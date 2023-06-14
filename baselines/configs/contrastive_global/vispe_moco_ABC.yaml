@@ -1,17 +1,7 @@
 # model hparams                                                  
 exp_meta:
     exp_name: "vispe_moco"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-03-05-ABC-scene-global-gt-mask-full"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-03-21-ABC-scene-global-gt-mask-full-dino-ft-other-neg-lr-norm"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-05-04-CO3D-global-gt-mask-full-dino-ft-norm-dinov2"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-05-22-toys-8k-global-gt-mask-full-dinov2-ft-norm"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-05-22-ABC-global-gt-mask-full-dinob8-ft-norm"
-    # log_dir: "/data/DevLearning/odme_models/logs/2023-05-28-ABC-global-gt-mask-full-dinov2b14-ft-norm"
-    log_dir: "/data/DevLearning/odme_models/logs/2023-05-30-toys-8k-global-gt-mask-full-dinov2b14-ft-norm"
-
-
-
-
+    log_dir: "/data/DevLearning/odme_models/logs/2023-05-28-ABC-global-gt-mask-full-dinov2b14-ft-norm"
     val_freq: 1
     batch_log_freq: 10
     seed: 12345
@@ -24,7 +14,6 @@ data_args:
     n_pts: 1
     n_neg_pts: 1
     dataset: "ABC_scene"
-    # dataset: "combined_scene"
     batch_size: 32
     num_workers: 12
     aug_file: "local_contrastive_for_tuning.json"
