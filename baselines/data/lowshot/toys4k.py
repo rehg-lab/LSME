@@ -17,45 +17,10 @@ from data import data_utils
 from torchvision.transforms import functional as TF
 from torchvision import transforms
 import json
+from paths import DATA_ROOT_SHOT, DATA_ROOT_QUERY, DATA_ROOT_BASE, DATA_ROOT_PRED_SHOT, DATA_ROOT_PRED_QUERY, SHAPENET, MULTI_BASE
 
 warnings.filterwarnings("ignore")
 
-DATA_ROOT_SHOT = '/data/DevLearning/odme/data_1k/toys_rendering_output_trainshot'
-DATA_ROOT_QUERY = '/data/DevLearning/odme/data_1k/toys_rendering_output_testshot'
-DATA_ROOT_BASE = '/data/DevLearning/odme/data_1k/toys_rendering_output_base'
-# DATA_ROOT_BASE = '/data/DevLearning/odme/toys_rendering_output_base_4k'
-
-DATA_ROOT_PRED_SHOT = '/data/DevLearning/odme/FreeSOLO_pred/train_predictions'
-DATA_ROOT_PRED_QUERY = '/data/DevLearning/odme/FreeSOLO_pred/test_predictions'
-
-# DATA_ROOT_PRED_SHOT = '/data/DevLearning/odme/FreeSOLO_pred/train_predictions_nft'
-# DATA_ROOT_PRED_QUERY = '/data/DevLearning/odme/FreeSOLO_pred/test_predictions_nft'
-
-# DATA_ROOT_PRED_SHOT = '/data/DevLearning/odme/FreeSOLO_shapenet/train_predictions'
-# DATA_ROOT_PRED_QUERY = '/data/DevLearning/odme/FreeSOLO_shapenet/test_predictions'
-
-
-
-# DATA_ROOT_SHOT = '/data/DevLearning/odme/toys_rendering_output_single_trainshot'
-# DATA_ROOT_QUERY = '/data/DevLearning/odme/toys_rendering_output_single_test'
-
-# DATA_ROOT_SHOT = '/data/DevLearning/odme/toys_rendering_output_trainshot_one_obj'
-# DATA_ROOT_QUERY = '/data/DevLearning/odme/toys_rendering_output_testshot_one_obj'
-
-# DATA_ROOT_SHOT = '/data/DevLearning/odme/toys_rendering_output_trainshot_one_obj_pose_vary'
-# DATA_ROOT_QUERY = '/data/DevLearning/odme/toys_rendering_output_testshot_one_obj_pose_vary'
-
-# DATA_ROOT_SHOT = '/data/DevLearning/odme/simple_data_toys/toys_rendering_output_trainshot_simple'
-# DATA_ROOT_QUERY = '/data/DevLearning/odme/simple_data_toys/toys_rendering_output_testshot_simple'
-# DATA_ROOT_BASE = '/data/DevLearning/odme/simple_data_toys/toys_rendering_output_base_simple'
-
-
-# DATA_ROOT_SHOT = '/data/DevLearning/odme/shapenet_trainshot_1k/'
-# DATA_ROOT_QUERY = '/data/DevLearning/odme/shapenet_testshot_1k/'
-# DATA_ROOT_BASE = '/data/DevLearning/odme/shapenet_base/'
-
-SHAPENET = False
-MULTI_BASE = 0
 
 def get_shapenet_mapper(cats):
     with open('/home/ant/develop/instance_category/source/data/lowshot/shapenetcorev2_synset.json', 'r') as f:
