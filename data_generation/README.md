@@ -2,7 +2,9 @@
 ## Download Data
 
 Download `assets.tar` from [here](https://www.dropbox.com/s/ah0obh8an0jgdr8/assets.tar?dl=0), untar the folder in `common`
+
 Download `poses.tar` from [here](https://www.dropbox.com/s/mkrfnfm9vz5d6i8/poses.tar?dl=0), untar the folder in `common`
+
 Move the sub-folders in `poses` to `common`. Inside `common`:
 ```
 mv poses/* .
