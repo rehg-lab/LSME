@@ -44,7 +44,7 @@ https://www.dropbox.com/s/zm8y6wz0kqzb69f/query.tar.xz?dl=0
 ## Low-shot Evaluation on LSME setting
 Download pretrained DINOv2 ViT B/14 - ABC weights from [here](https://www.dropbox.com/s/fhw2j37wxszicpc/DINOv2B14_ABC.pt?dl=0)
 
-Download renderings from [here](https://www.dropbox.com/s/sil2wfaawwgetmv/toys_Multi_Object_data.tar.xz?dl=0) and predicted instance masks for [support scenes](https://www.dropbox.com/s/2o3fwxlw1k37ewy/support.tar.xz?dl=0) and (query scenes)[https://www.dropbox.com/s/zm8y6wz0kqzb69f/query.tar.xz?dl=0]
+Download renderings from [here](https://www.dropbox.com/s/sil2wfaawwgetmv/toys_Multi_Object_data.tar.xz?dl=0) and predicted instance masks for [support scenes](https://www.dropbox.com/s/2o3fwxlw1k37ewy/support.tar.xz?dl=0) and [query scenes](https://www.dropbox.com/s/zm8y6wz0kqzb69f/query.tar.xz?dl=0)
 
 Adjust the data paths in `paths.py`
 
