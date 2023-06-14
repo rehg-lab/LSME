@@ -16,6 +16,7 @@ Download `toys_scene_configs.tar` from [here](https://www.dropbox.com/s/kbdib7km
 ```
 https://www.blender.org/download/releases/2-93/
 ```
+Adjust Toys4k data path in `rendering/render_utils.py`
 
 After adjusting the paths in `rendering/render_toys.sh` run the following command inside `rendering` to make sure everything is setup and things are working properly
 ```
