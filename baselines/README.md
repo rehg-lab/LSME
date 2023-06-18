@@ -23,7 +23,7 @@ https://www.dropbox.com/sh/rlldg6ldr7073i2/AAAjV3UhOaA7fDpvcxRPmho4a?dl=0
 ## LSME Data
 Renderings for multi-object variants on Toys4K
 ```
-https://www.dropbox.com/s/sil2wfaawwgetmv/toys_Multi_Object_data.tar.xz?dl=0
+https://www.dropbox.com/s/7d7gzrsmcxusdyl/toys_multi_object.tar?dl=0
 ```
 Data for Categ-SObject
 ```
