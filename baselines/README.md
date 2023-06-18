@@ -42,6 +42,8 @@ https://www.dropbox.com/s/zm8y6wz0kqzb69f/query.tar.xz?dl=0
 ```
 
 ## Installation
+
+Code has been tested on Python 3.8.12, PyTorch 1.10.0, Cuda Toolkit 10.2
 ```
 conda env create -f environment.yml
 conda activate lsme
